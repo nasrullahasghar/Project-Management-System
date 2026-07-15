@@ -1,14 +1,14 @@
-# .NET
-ProjectManagementApi/bin/
-ProjectManagementApi/obj/
+# Angular
+frontend/node_modules/
+frontend/dist/
 
-# Angular (add once you create the frontend folder)
-# frontend/node_modules/
-# frontend/dist/
+# .NET
+backend/bin/
+backend/obj/
 
 # Environment/secrets
 *.env
-ProjectManagementApi/appsettings.Development.json
+appsettings.Development.json
 
 # OS/editor
 .vscode/
