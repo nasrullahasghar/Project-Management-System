@@ -1,0 +1,48 @@
+<div class="project-list-container">
+  <div class="header-row">
+    <h2>Projects</h2>
+    @if (canManage) {
+      <a routerLink="/projects/new" class="btn-create">+ New Project</a>
+    }
+  </div>
+
+  @if (projectService.projects().length === 0) {
+    <p>No projects yet.</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Tasks</th>
+          <th>Team</th>
+          <th>Created By</th>
+          @if (canManage) {
+            <th>Actions</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (project of projectService.projects(); track project.id) {
+          <tr>
+            <td>{{ project.name }}</td>
+            <td>{{ project.status }}</td>
+            <td>{{ project.startDate | date: 'mediumDate' }}</td>
+            <td>{{ project.endDate | date: 'mediumDate' }}</td>
+            <td>{{ project.taskCount }}</td>
+            <td>{{ project.teamMemberCount }}</td>
+            <td>{{ project.createdByUserName }}</td>
+            @if (canManage) {
+              <td>
+                <a [routerLink]="['/projects', project.id, 'edit']">Edit</a>
+                <button (click)="onDelete(project.id, project.name)">Delete</button>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

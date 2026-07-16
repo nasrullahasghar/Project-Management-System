@@ -1,0 +1,67 @@
+<div class="register-container">
+  <h2>Register</h2>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-field">
+      <label for="fullName">Full Name</label>
+      <input id="fullName" type="text" formControlName="fullName" />
+      @if (registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched) {
+        <span class="error">Full name is required.</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" />
+      @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+        <span class="error">
+          @if (registerForm.get('email')?.hasError('required')) {
+            Email is required.
+          } @else if (registerForm.get('email')?.hasError('email')) {
+            Please enter a valid email address.
+          }
+        </span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" />
+      @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+        <span class="error">
+          @if (registerForm.get('password')?.hasError('required')) {
+            Password is required.
+          } @else if (registerForm.get('password')?.hasError('minlength')) {
+            Password must be at least 6 characters.
+          }
+        </span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="role">Role</label>
+      <select id="role" formControlName="role">
+        <option value="" disabled>Select a role</option>
+        @for (r of roles; track r) {
+          <option [value]="r">{{ r }}</option>
+        }
+      </select>
+      @if (registerForm.get('role')?.invalid && registerForm.get('role')?.touched) {
+        <span class="error">Please select a role.</span>
+      }
+    </div>
+
+    @if (errorMessage) {
+      <div class="server-error">{{ errorMessage }}</div>
+    }
+    @if (successMessage) {
+      <div class="success-message">{{ successMessage }}</div>
+    }
+
+    <button type="submit" [disabled]="isSubmitting">
+      {{ isSubmitting ? 'Creating account...' : 'Register' }}
+    </button>
+  </form>
+
+  <p>Already have an account? <a routerLink="/login">Log in here</a></p>
+</div>
