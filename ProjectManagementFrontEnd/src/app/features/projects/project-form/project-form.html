@@ -1,0 +1,59 @@
+<div class="project-form-container">
+  <h2>{{ isEditMode ? 'Edit Project' : 'New Project' }}</h2>
+
+  <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+    <div class="form-field">
+      <label for="name">Name</label>
+      <input id="name" type="text" formControlName="name" />
+      @if (projectForm.get('name')?.invalid && projectForm.get('name')?.touched) {
+        <span class="error">Name is required.</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description"></textarea>
+      @if (projectForm.get('description')?.invalid && projectForm.get('description')?.touched) {
+        <span class="error">Description is required.</span>
+      }
+    </div>
+
+    @if (isEditMode) {
+      <div class="form-field">
+        <label for="status">Status</label>
+        <select id="status" formControlName="status">
+          @for (s of statusOptions; track s) {
+            <option [value]="s">{{ s }}</option>
+          }
+        </select>
+      </div>
+    }
+
+    <div class="form-field">
+      <label for="startDate">Start Date</label>
+      <input id="startDate" type="date" formControlName="startDate" />
+      @if (projectForm.get('startDate')?.invalid && projectForm.get('startDate')?.touched) {
+        <span class="error">Start date is required.</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="endDate">End Date</label>
+      <input id="endDate" type="date" formControlName="endDate" />
+      @if (projectForm.get('endDate')?.invalid && projectForm.get('endDate')?.touched) {
+        <span class="error">End date is required.</span>
+      }
+    </div>
+
+    @if (errorMessage) {
+      <div class="server-error">{{ errorMessage }}</div>
+    }
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Saving...' : (isEditMode ? 'Update Project' : 'Create Project') }}
+      </button>
+      <a routerLink="/projects">Cancel</a>
+    </div>
+  </form>
+</div>

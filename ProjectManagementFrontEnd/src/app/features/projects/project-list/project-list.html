@@ -19,9 +19,7 @@
           <th>Tasks</th>
           <th>Team</th>
           <th>Created By</th>
-          @if (canManage) {
-            <th>Actions</th>
-          }
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -34,12 +32,13 @@
             <td>{{ project.taskCount }}</td>
             <td>{{ project.teamMemberCount }}</td>
             <td>{{ project.createdByUserName }}</td>
-            @if (canManage) {
-              <td>
+            <td>
+              <a [routerLink]="['/projects', project.id, 'tasks']">Tasks</a>
+              @if (canManage) {
                 <a [routerLink]="['/projects', project.id, 'edit']">Edit</a>
                 <button (click)="onDelete(project.id, project.name)">Delete</button>
-              </td>
-            }
+              }
+            </td>
           </tr>
         }
       </tbody>

@@ -1,0 +1,45 @@
+<div class="task-list-container">
+  <div class="header-row">
+    <a [routerLink]="['/projects']" class="back-link">&larr; Back to Projects</a>
+    <h2>Tasks</h2>
+    @if (canManage) {
+      <a [routerLink]="['/projects', projectId, 'tasks', 'new']" class="btn-create">+ New Task</a>
+    }
+  </div>
+
+  @if (taskService.tasks().length === 0) {
+    <p>No tasks yet.</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Priority</th>
+          <th>Due Date</th>
+          <th>Assigned To</th>
+          @if (canManage) {
+            <th>Actions</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (task of taskService.tasks(); track task.id) {
+          <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.status }}</td>
+            <td>{{ task.priority }}</td>
+            <td>{{ task.dueDate ? (task.dueDate | date: 'mediumDate') : '—' }}</td>
+            <td>{{ task.assignedToUserName || 'Unassigned' }}</td>
+            @if (canManage) {
+              <td>
+                <a [routerLink]="['/projects', projectId, 'tasks', task.id, 'edit']">Edit</a>
+                <button (click)="onDelete(task.id, task.title)">Delete</button>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

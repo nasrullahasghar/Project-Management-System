@@ -1,0 +1,68 @@
+<div class="task-form-container">
+  <a [routerLink]="['/projects', projectId, 'tasks']" class="back-link">&larr; Back to Tasks</a>
+  <h2>{{ isEditMode ? 'Edit Task' : 'New Task' }}</h2>
+
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <div class="form-field">
+      <label for="title">Title</label>
+      <input id="title" type="text" formControlName="title" />
+      @if (taskForm.get('title')?.invalid && taskForm.get('title')?.touched) {
+        <span class="error">Title is required.</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description"></textarea>
+      @if (taskForm.get('description')?.invalid && taskForm.get('description')?.touched) {
+        <span class="error">Description is required.</span>
+      }
+    </div>
+
+    @if (isEditMode) {
+      <div class="form-field">
+        <label for="status">Status</label>
+        <select id="status" formControlName="status">
+          @for (s of statusOptions; track s) {
+            <option [value]="s">{{ s }}</option>
+          }
+        </select>
+      </div>
+    }
+
+    <div class="form-field">
+      <label for="priority">Priority</label>
+      <select id="priority" formControlName="priority">
+        @for (p of priorityOptions; track p) {
+          <option [value]="p">{{ p }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="dueDate">Due Date</label>
+      <input id="dueDate" type="date" formControlName="dueDate" />
+    </div>
+
+    <div class="form-field">
+      <label for="assignedToUserId">Assigned To</label>
+      <select id="assignedToUserId" formControlName="assignedToUserId">
+        <option value="">Unassigned</option>
+        @for (member of teamMembers; track member.id) {
+          <option [value]="member.userId">{{ member.userFullName }}</option>
+        }
+      </select>
+    </div>
+
+    @if (errorMessage) {
+      <div class="server-error">{{ errorMessage }}</div>
+    }
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Saving...' : (isEditMode ? 'Update Task' : 'Create Task') }}
+      </button>
+      <a [routerLink]="['/projects', projectId, 'tasks']">Cancel</a>
+    </div>
+  </form>
+</div>
