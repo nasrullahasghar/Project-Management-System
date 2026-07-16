@@ -1,11 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { DatePipe } from '@angular/common';
 import { Project } from '../services/project';
 import { Auth } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-project-list',
-  imports: [RouterLink],
+  imports: [RouterLink, DatePipe],
   templateUrl: './project-list.html',
   styleUrl: './project-list.scss',
 })
