@@ -1,0 +1,76 @@
+<div class="team-member-list-container">
+  <a [routerLink]="['/projects']" class="back-link">&larr; Back to Projects</a>
+  <h2>Team Members</h2>
+
+  @if (teamMemberService.members().length === 0) {
+    <p>No team members yet.</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role in Project</th>
+          @if (canManage) {
+            <th>Actions</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (member of teamMemberService.members(); track member.id) {
+          <tr>
+            <td>{{ member.userFullName }}</td>
+            <td>{{ member.userEmail }}</td>
+            <td>{{ member.roleInProject }}</td>
+            @if (canManage) {
+              <td>
+                <button (click)="onRemove(member.id, member.userFullName)">Remove</button>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  @if (canManage) {
+    <div class="add-member-section">
+      <h3>Add Team Member</h3>
+
+      @if (availableUsers.length === 0) {
+        <p>All registered users are already on this project.</p>
+      } @else {
+        <form [formGroup]="addMemberForm" (ngSubmit)="onAddMember()">
+          <div class="form-field">
+            <label for="userId">User</label>
+            <select id="userId" formControlName="userId">
+              <option value="" disabled>Select a user</option>
+              @for (user of availableUsers; track user.id) {
+                <option [value]="user.id">{{ user.fullName }} ({{ user.email }})</option>
+              }
+            </select>
+            @if (addMemberForm.get('userId')?.invalid && addMemberForm.get('userId')?.touched) {
+              <span class="error">Please select a user.</span>
+            }
+          </div>
+
+          <div class="form-field">
+            <label for="roleInProject">Role in Project</label>
+            <input id="roleInProject" type="text" formControlName="roleInProject" placeholder="e.g. Developer, Designer" />
+            @if (addMemberForm.get('roleInProject')?.invalid && addMemberForm.get('roleInProject')?.touched) {
+              <span class="error">Role is required.</span>
+            }
+          </div>
+
+          @if (errorMessage) {
+            <div class="server-error">{{ errorMessage }}</div>
+          }
+
+          <button type="submit" [disabled]="isSubmitting">
+            {{ isSubmitting ? 'Adding...' : 'Add Member' }}
+          </button>
+        </form>
+      }
+    </div>
+  }
+</div>

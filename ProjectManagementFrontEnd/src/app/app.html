@@ -1,1 +1,28 @@
-<router-outlet />
+@if (auth.isLoggedIn()) {
+  <mat-toolbar color="primary">
+    <span class="app-title">Project Management</span>
+
+    <span class="spacer"></span>
+
+    <a mat-button routerLink="/dashboard">Dashboard</a>
+    <a mat-button routerLink="/projects">Projects</a>
+
+    <button mat-icon-button [matMenuTriggerFor]="userMenu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #userMenu="matMenu">
+      <div class="menu-user-info">
+        <strong>{{ auth.currentUser()?.fullName }}</strong>
+        <span>{{ auth.currentUser()?.role }}</span>
+      </div>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Log Out</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+}
+
+<div class="page-content">
+  <router-outlet />
+</div>

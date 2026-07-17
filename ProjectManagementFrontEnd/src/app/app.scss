@@ -1,0 +1,36 @@
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.app-title {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.menu-user-info {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px;
+  line-height: 1.4;
+
+  strong {
+    font-size: 0.95rem;
+  }
+
+  span {
+    font-size: 0.8rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.page-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}

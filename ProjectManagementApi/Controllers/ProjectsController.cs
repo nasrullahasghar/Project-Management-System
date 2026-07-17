@@ -11,6 +11,8 @@ namespace ProjectManagementApi.Controllers;
 [ApiController]
 [Route("api/[controller]")] // becomes /api/projects
 [Authorize]
+
+
 public class ProjectsController : ControllerBase
 {
     private readonly AppDbContext _context;
@@ -46,7 +48,17 @@ public class ProjectsController : ControllerBase
 
         return Ok(projects);
     }
+        private static DateTime? ToUtc(DateTime? date)
+    {
+        if (date == null) return null;
 
+        return date.Value.Kind switch
+        {
+            DateTimeKind.Utc => date.Value,
+            DateTimeKind.Local => date.Value.ToUniversalTime(),
+            _ => DateTime.SpecifyKind(date.Value, DateTimeKind.Utc)
+        };
+    }
     // GET /api/projects/5
     [HttpGet("{id}")]
     public async Task<ActionResult<ProjectDto>> GetProject(int id)
@@ -91,8 +103,8 @@ public class ProjectsController : ControllerBase
         {
             Name = dto.Name,
             Description = dto.Description,
-            StartDate = dto.StartDate,
-            EndDate = dto.EndDate,
+            StartDate = ToUtc(dto.StartDate),
+            EndDate = ToUtc(dto.EndDate),
             Status = "Planning",
             CreatedByUserId = createdByUserId
         };
@@ -137,8 +149,8 @@ public class ProjectsController : ControllerBase
         project.Name = dto.Name;
         project.Description = dto.Description;
         project.Status = dto.Status;
-        project.StartDate = dto.StartDate;
-        project.EndDate = dto.EndDate;
+        project.StartDate = ToUtc(dto.StartDate);
+        project.EndDate = ToUtc(dto.EndDate);
 
         await _context.SaveChangesAsync();
 

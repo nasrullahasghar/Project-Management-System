@@ -64,4 +64,10 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/tasks/task-form/task-form').then((m) => m.TaskForm),
   },
+  {
+    path: 'projects/:projectId/team',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/team-members/team-member-list/team-member-list').then((m) => m.TeamMemberList),
+  },
 ];

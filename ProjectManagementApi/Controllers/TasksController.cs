@@ -25,6 +25,20 @@ public class TasksController : ControllerBase
         return await _context.Projects.AnyAsync(p => p.Id == projectId);
     }
 
+    // Normalizes any incoming DateTime to Kind=Utc so Npgsql accepts it
+    // for the "timestamp with time zone" column type.
+    private static DateTime? ToUtc(DateTime? date)
+    {
+        if (date == null) return null;
+
+        return date.Value.Kind switch
+        {
+            DateTimeKind.Utc => date.Value,
+            DateTimeKind.Local => date.Value.ToUniversalTime(),
+            _ => DateTime.SpecifyKind(date.Value, DateTimeKind.Utc)
+        };
+    }
+
     // GET /api/projects/5/tasks
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TaskDto>>> GetTasks(int projectId)
@@ -108,7 +122,7 @@ public class TasksController : ControllerBase
             Title = dto.Title,
             Description = dto.Description,
             Priority = dto.Priority,
-            DueDate = dto.DueDate,
+            DueDate = ToUtc(dto.DueDate),
             Status = "ToDo",
             ProjectId = projectId,
             AssignedToUserId = dto.AssignedToUserId
@@ -167,7 +181,7 @@ public class TasksController : ControllerBase
         task.Description = dto.Description;
         task.Status = dto.Status;
         task.Priority = dto.Priority;
-        task.DueDate = dto.DueDate;
+        task.DueDate = ToUtc(dto.DueDate);
         task.AssignedToUserId = dto.AssignedToUserId;
 
         await _context.SaveChangesAsync();

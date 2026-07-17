@@ -1,6 +1,28 @@
-<div class="dashboard-container">
-  <h2>Dashboard</h2>
-  <p>Welcome, {{ auth.currentUser()?.fullName }}!</p>
-  <p>Role: {{ auth.currentUser()?.role }}</p>
-  <button (click)="logout()">Log Out</button>
+<div class="dashboard-page">
+  <mat-card class="welcome-card">
+    <mat-card-content>
+      <div class="welcome-header">
+        <mat-icon class="welcome-icon">waving_hand</mat-icon>
+        <div>
+          <h2>Welcome, {{ auth.currentUser()?.fullName }}</h2>
+          <p class="role-label">{{ auth.currentUser()?.role }}</p>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="quick-actions">
+    <mat-card class="action-card" routerLink="/projects">
+      <mat-card-content>
+        <mat-icon>folder</mat-icon>
+        <h3>Projects</h3>
+        <p>View and manage all your projects.</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <button mat-stroked-button (click)="logout()" class="logout-button">
+    <mat-icon>logout</mat-icon>
+    Log Out
+  </button>
 </div>
