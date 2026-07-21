@@ -1,57 +1,30 @@
-.task-list-page {
-  max-width: 1100px;
-  margin: 0 auto;
+.dialog-content {
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
-.header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-  gap: 16px;
-
-  h2 {
-    margin: 0;
-    flex: 1;
-  }
-}
-
-.empty-state {
-  text-align: center;
-  padding: 32px;
+.empty-message {
   color: var(--mat-sys-on-surface-variant);
 }
 
-.styled-table {
-  width: 100%;
-  border-collapse: collapse;
+.task-row {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
 
-  th {
-    text-align: left;
-    padding: 12px 16px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--mat-sys-on-surface-variant);
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
-  }
-
-  td {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
-    font-size: 0.9rem;
-  }
-
-  tr:last-child td {
+  &:last-child {
     border-bottom: none;
-  }
-
-  tr:hover td {
-    background-color: var(--mat-sys-surface-container-low);
   }
 }
 
-.actions-cell {
-  white-space: nowrap;
+.task-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.task-chips {
+  display: flex;
+  gap: 8px;
 }
 
 mat-chip {

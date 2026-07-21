@@ -1,0 +1,45 @@
+.task-form-page {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-card {
+  padding: 8px;
+
+  mat-card-title {
+    margin-bottom: 8px;
+    display: block;
+  }
+}
+
+.back-link {
+  margin-bottom: 8px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.field-row {
+  display: flex;
+  gap: 16px;
+}
+
+.half-width {
+  flex: 1;
+  margin-bottom: 8px;
+}
+
+.server-error {
+  color: var(--mat-sys-error);
+  font-size: 0.875rem;
+  margin-bottom: 12px;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}

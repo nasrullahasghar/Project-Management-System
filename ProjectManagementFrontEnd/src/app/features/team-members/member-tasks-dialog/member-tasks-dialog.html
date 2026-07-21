@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Tasks assigned to {{ data.memberName }}</h2>
+
+<mat-dialog-content class="dialog-content">
+  @if (data.tasks.length === 0) {
+    <p class="empty-message">No tasks currently assigned to this member.</p>
+  } @else {
+    @for (task of data.tasks; track task.id) {
+      <div class="task-row">
+        <div class="task-info">
+          <strong>{{ task.title }}</strong>
+          <div class="task-chips">
+            <mat-chip [class]="'status-' + task.status">{{ task.status }}</mat-chip>
+            <mat-chip [class]="'priority-' + task.priority">{{ task.priority }}</mat-chip>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Close</button>
+</mat-dialog-actions>

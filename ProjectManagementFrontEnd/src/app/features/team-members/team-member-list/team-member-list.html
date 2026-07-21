@@ -1,76 +1,91 @@
-<div class="team-member-list-container">
-  <a [routerLink]="['/projects']" class="back-link">&larr; Back to Projects</a>
+<div class="team-member-list-page">
+  <a mat-button [routerLink]="['/projects']">
+    <mat-icon>arrow_back</mat-icon>
+    Back to Projects
+  </a>
   <h2>Team Members</h2>
 
   @if (teamMemberService.members().length === 0) {
-    <p>No team members yet.</p>
+    <mat-card class="empty-state">
+      <mat-card-content>
+        <p>No team members yet.</p>
+      </mat-card-content>
+    </mat-card>
   } @else {
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Role in Project</th>
-          @if (canManage) {
-            <th>Actions</th>
-          }
-        </tr>
-      </thead>
-      <tbody>
-        @for (member of teamMemberService.members(); track member.id) {
+    <mat-card>
+      <table class="styled-table">
+        <thead>
           <tr>
-            <td>{{ member.userFullName }}</td>
-            <td>{{ member.userEmail }}</td>
-            <td>{{ member.roleInProject }}</td>
-            @if (canManage) {
-              <td>
-                <button (click)="onRemove(member.id, member.userFullName)">Remove</button>
-              </td>
-            }
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role in Project</th>
+            <th>Actions</th>
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @for (member of teamMemberService.members(); track member.id) {
+            <tr>
+              <td>{{ member.userFullName }}</td>
+              <td>{{ member.userEmail }}</td>
+              <td>{{ member.roleInProject }}</td>
+              <td class="actions-cell">
+                <button mat-icon-button (click)="viewAssignedTasks(member)" matTooltip="View Tasks">
+                  <mat-icon>checklist</mat-icon>
+                </button>
+                @if (canManage) {
+                  <button mat-icon-button (click)="onRemove(member.id, member.userFullName)" matTooltip="Remove">
+                    <mat-icon>person_remove</mat-icon>
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </mat-card>
   }
 
   @if (canManage) {
-    <div class="add-member-section">
-      <h3>Add Team Member</h3>
+    <mat-card class="add-member-card">
+      <mat-card-header>
+        <mat-card-title>Add Team Member</mat-card-title>
+      </mat-card-header>
 
-      @if (availableUsers.length === 0) {
-        <p>All registered users are already on this project.</p>
-      } @else {
-        <form [formGroup]="addMemberForm" (ngSubmit)="onAddMember()">
-          <div class="form-field">
-            <label for="userId">User</label>
-            <select id="userId" formControlName="userId">
-              <option value="" disabled>Select a user</option>
-              @for (user of availableUsers; track user.id) {
-                <option [value]="user.id">{{ user.fullName }} ({{ user.email }})</option>
+      <mat-card-content>
+        @if (availableUsers.length === 0) {
+          <p>All registered users are already on this project.</p>
+        } @else {
+          <form [formGroup]="addMemberForm" (ngSubmit)="onAddMember()">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>User</mat-label>
+              <mat-select formControlName="userId">
+                @for (user of availableUsers; track user.id) {
+                  <mat-option [value]="user.id">{{ user.fullName }} ({{ user.email }})</mat-option>
+                }
+              </mat-select>
+              @if (addMemberForm.get('userId')?.hasError('required')) {
+                <mat-error>Please select a user.</mat-error>
               }
-            </select>
-            @if (addMemberForm.get('userId')?.invalid && addMemberForm.get('userId')?.touched) {
-              <span class="error">Please select a user.</span>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Role in Project</mat-label>
+              <input matInput type="text" formControlName="roleInProject" placeholder="e.g. Developer, Designer" />
+              @if (addMemberForm.get('roleInProject')?.hasError('required')) {
+                <mat-error>Role is required.</mat-error>
+              }
+            </mat-form-field>
+
+            @if (errorMessage) {
+              <div class="server-error">{{ errorMessage }}</div>
             }
-          </div>
 
-          <div class="form-field">
-            <label for="roleInProject">Role in Project</label>
-            <input id="roleInProject" type="text" formControlName="roleInProject" placeholder="e.g. Developer, Designer" />
-            @if (addMemberForm.get('roleInProject')?.invalid && addMemberForm.get('roleInProject')?.touched) {
-              <span class="error">Role is required.</span>
-            }
-          </div>
-
-          @if (errorMessage) {
-            <div class="server-error">{{ errorMessage }}</div>
-          }
-
-          <button type="submit" [disabled]="isSubmitting">
-            {{ isSubmitting ? 'Adding...' : 'Add Member' }}
-          </button>
-        </form>
-      }
-    </div>
+            <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting">
+              {{ isSubmitting ? 'Adding...' : 'Add Member' }}
+            </button>
+          </form>
+        }
+      </mat-card-content>
+    </mat-card>
   }
 </div>

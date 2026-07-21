@@ -5,19 +5,31 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
-import { Project } from '../services/project';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { Project, ProjectDto } from '../services/project';
 import { Auth } from '../../../core/services/auth';
-
+import { ProjectDescriptionDialog } from '../project-description-dialog/project-description-dialog';
 
 @Component({
   selector: 'app-project-list',
-  imports: [RouterLink, DatePipe, MatCardModule, MatButtonModule, MatIconModule, MatChipsModule],
+  imports: [
+    RouterLink,
+    DatePipe,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatChipsModule,
+    MatTooltipModule,
+    MatDialogModule,
+  ],
   templateUrl: './project-list.html',
   styleUrl: './project-list.scss',
 })
 export class ProjectList implements OnInit {
   projectService = inject(Project);
   auth = inject(Auth);
+  private dialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.projectService.loadProjects();
@@ -33,5 +45,12 @@ export class ProjectList implements OnInit {
       return;
     }
     this.projectService.deleteProject(id).subscribe();
+  }
+
+  viewDescription(project: ProjectDto): void {
+    this.dialog.open(ProjectDescriptionDialog, {
+      data: { name: project.name, description: project.description },
+      width: '500px',
+    });
   }
 }

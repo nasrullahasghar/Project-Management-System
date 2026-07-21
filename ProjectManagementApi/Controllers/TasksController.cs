@@ -177,12 +177,22 @@ public class TasksController : ControllerBase
             }
         }
 
-        task.Title = dto.Title;
+task.Title = dto.Title;
         task.Description = dto.Description;
-        task.Status = dto.Status;
         task.Priority = dto.Priority;
         task.DueDate = ToUtc(dto.DueDate);
         task.AssignedToUserId = dto.AssignedToUserId;
+
+        if (dto.Status == "Done" && task.Status != "Done")
+        {
+            task.CompletedAt = DateTime.UtcNow;
+        }
+        else if (dto.Status != "Done" && task.Status == "Done")
+        {
+            task.CompletedAt = null;
+        }
+
+        task.Status = dto.Status;
 
         await _context.SaveChangesAsync();
 

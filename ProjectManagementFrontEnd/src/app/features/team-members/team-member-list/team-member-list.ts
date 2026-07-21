@@ -1,13 +1,34 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { TeamMember } from '../services/team-member';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { TeamMember, TeamMemberDto } from '../services/team-member';
 import { User, UserDto } from '../../users/services/user';
 import { Auth } from '../../../core/services/auth';
+import { Task } from '../../tasks/services/task';
+import { MemberTasksDialog } from '../member-tasks-dialog/member-tasks-dialog';
 
 @Component({
   selector: 'app-team-member-list',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatDialogModule,
+  ],
   templateUrl: './team-member-list.html',
   styleUrl: './team-member-list.scss',
 })
@@ -15,8 +36,10 @@ export class TeamMemberList implements OnInit {
   private fb = inject(FormBuilder);
   private userService = inject(User);
   teamMemberService = inject(TeamMember);
+  taskService = inject(Task);
   auth = inject(Auth);
   private route = inject(ActivatedRoute);
+  private dialog = inject(MatDialog);
 
   projectId!: number;
   availableUsers: UserDto[] = [];
@@ -31,6 +54,7 @@ export class TeamMemberList implements OnInit {
   ngOnInit(): void {
     this.projectId = Number(this.route.snapshot.paramMap.get('projectId'));
     this.teamMemberService.loadTeamMembers(this.projectId);
+    this.taskService.loadTasks(this.projectId);
     this.loadAvailableUsers();
   }
 
@@ -80,5 +104,14 @@ export class TeamMemberList implements OnInit {
       return;
     }
     this.teamMemberService.removeTeamMember(this.projectId, id).subscribe();
+  }
+
+  viewAssignedTasks(member: TeamMemberDto): void {
+    const assignedTasks = this.taskService.tasks().filter((t) => t.assignedToUserId === member.userId);
+
+    this.dialog.open(MemberTasksDialog, {
+      data: { memberName: member.userFullName, tasks: assignedTasks },
+      width: '500px',
+    });
   }
 }

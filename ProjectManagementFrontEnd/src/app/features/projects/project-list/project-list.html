@@ -43,6 +43,9 @@
               <td>{{ project.teamMemberCount }}</td>
               <td>{{ project.createdByUserName }}</td>
               <td class="actions-cell">
+                <button mat-icon-button (click)="viewDescription(project)" matTooltip="View Description">
+                  <mat-icon>description</mat-icon>
+                </button>
                 <button mat-icon-button [routerLink]="['/projects', project.id, 'tasks']" matTooltip="Tasks">
                   <mat-icon>checklist</mat-icon>
                 </button>
