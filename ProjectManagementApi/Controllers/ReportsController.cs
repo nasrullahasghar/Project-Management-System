@@ -113,5 +113,80 @@ namespace ProjectManagementApi.Controllers
 
             return Ok(dto);
         }
+        // GET /api/reports/projects/{projectId}/team-performance
+        [HttpGet("projects/{projectId}/team-performance")]
+        public async Task<ActionResult<TeamPerformanceReportDto>> GetTeamPerformance(int projectId)
+        {
+            if (!await _context.Projects.AnyAsync(p => p.Id == projectId))
+            {
+                return NotFound(new { message = $"Project with id {projectId} not found." });
+            }
+
+            var teamMembers = await _context.TeamMembers
+                .Where(tm => tm.ProjectId == projectId)
+                .Include(tm => tm.User)
+                .ToListAsync();
+
+            var tasks = await _context.Tasks
+                .Where(t => t.ProjectId == projectId)
+                .ToListAsync();
+
+            var now = DateTime.UtcNow;
+
+            var members = teamMembers.Select(tm =>
+            {
+                var memberTasks = tasks.Where(t => t.AssignedToUserId == tm.UserId).ToList();
+
+                return new MemberPerformanceDto
+                {
+                    UserId = tm.UserId,
+                    UserName = tm.User.FullName,
+                    AssignedCount = memberTasks.Count,
+                    CompletedCount = memberTasks.Count(t => t.Status == "Done"),
+                    OverdueCount = memberTasks.Count(t =>
+                        t.Status != "Done" && t.DueDate != null && t.DueDate < now)
+                };
+            }).ToList();
+
+            var dto = new TeamPerformanceReportDto
+            {
+                ProjectId = projectId,
+                Members = members
+            };
+
+            return Ok(dto);
+        }
+        // GET /api/reports/global-breakdown
+        [HttpGet("global-breakdown")]
+        public async Task<ActionResult<GlobalBreakdownDto>> GetGlobalBreakdown()
+        {
+            var tasks = await _context.Tasks.ToListAsync();
+
+            var byStatus = tasks
+                .GroupBy(t => t.Status)
+                .Select(g => new StatusCountDto
+                {
+                    Status = g.Key,
+                    Count = g.Count()
+                })
+                .ToList();
+
+            var byPriority = tasks
+                .GroupBy(t => t.Priority)
+                .Select(g => new PriorityCountDto
+                {
+                    Priority = g.Key,
+                    Count = g.Count()
+                })
+                .ToList();
+
+            var dto = new GlobalBreakdownDto
+            {
+                ByStatus = byStatus,
+                ByPriority = byPriority
+            };
+
+            return Ok(dto);
+        }
     }
 }

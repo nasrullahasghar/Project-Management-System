@@ -70,4 +70,52 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/team-members/team-member-list/team-member-list').then((m) => m.TeamMemberList),
   },
+  {
+    path: 'projects/:projectId/reports/progress',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/reports/project-progress/project-progress').then(
+        (m) => m.ProjectProgress
+      ),
+  },
+{
+    path: 'reports/task-completion',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/reports/task-completion/task-completion').then(
+        (m) => m.TaskCompletion
+      ),
+  },
+  {
+    path: 'projects/:projectId/reports/team-performance',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/reports/team-performance/team-performance').then(
+        (m) => m.TeamPerformance
+      ),
+  },
+  {
+    path: 'reports/global-breakdown',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/reports/global-breakdown/global-breakdown').then(
+        (m) => m.GlobalBreakdown
+      ),
+  },
+  {
+    path: 'reports',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/reports/reports-home/reports-home').then(
+        (m) => m.ReportsHome
+      ),
+  },
+  {
+    path: 'projects/:projectId/reports',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/reports/reports-home/reports-home').then(
+        (m) => m.ReportsHome
+      ),
+  },
 ];

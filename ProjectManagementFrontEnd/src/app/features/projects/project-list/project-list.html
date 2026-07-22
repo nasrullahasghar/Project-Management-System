@@ -1,6 +1,7 @@
 <div class="project-list-page">
   <div class="header-row">
     <h2>Projects</h2>
+
     @if (canManage) {
       <button mat-raised-button color="primary" routerLink="/projects/new">
         <mat-icon>add</mat-icon>
@@ -9,10 +10,23 @@
     }
   </div>
 
-  @if (projectService.projects().length === 0) {
+  <!-- Search Bar -->
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search Projects</mat-label>
+    <input
+      matInput
+      type="text"
+      placeholder="Search by project name"
+      [ngModel]="searchTerm()"
+      (ngModelChange)="searchTerm.set($event)"
+    />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  @if (filteredProjects().length === 0) {
     <mat-card class="empty-state">
       <mat-card-content>
-        <p>No projects yet.</p>
+        <p>No matching projects found.</p>
       </mat-card-content>
     </mat-card>
   } @else {
@@ -30,33 +44,65 @@
             <th>Actions</th>
           </tr>
         </thead>
+
         <tbody>
-          @for (project of projectService.projects(); track project.id) {
+          @for (project of filteredProjects(); track project.id) {
             <tr>
               <td>{{ project.name }}</td>
+
               <td>
-                <mat-chip [class]="'status-' + project.status">{{ project.status }}</mat-chip>
+                <mat-chip [class]="'status-' + project.status">
+                  {{ project.status }}
+                </mat-chip>
               </td>
-              <td>{{ project.startDate | date: 'mediumDate' }}</td>
-              <td>{{ project.endDate | date: 'mediumDate' }}</td>
+
+              <td>{{ project.startDate | date:'mediumDate' }}</td>
+              <td>{{ project.endDate | date:'mediumDate' }}</td>
               <td>{{ project.taskCount }}</td>
               <td>{{ project.teamMemberCount }}</td>
               <td>{{ project.createdByUserName }}</td>
+
               <td class="actions-cell">
-                <button mat-icon-button (click)="viewDescription(project)" matTooltip="View Description">
+                <button
+                  mat-icon-button
+                  (click)="viewDescription(project)"
+                  matTooltip="View Description">
                   <mat-icon>description</mat-icon>
                 </button>
-                <button mat-icon-button [routerLink]="['/projects', project.id, 'tasks']" matTooltip="Tasks">
+
+                <button
+                  mat-icon-button
+                  [routerLink]="['/projects', project.id, 'tasks']"
+                  matTooltip="Tasks">
                   <mat-icon>checklist</mat-icon>
                 </button>
-                <button mat-icon-button [routerLink]="['/projects', project.id, 'team']" matTooltip="Team">
+
+                <button
+                  mat-icon-button
+                  [routerLink]="['/projects', project.id, 'team']"
+                  matTooltip="Team">
                   <mat-icon>group</mat-icon>
                 </button>
+
+                <button
+                  mat-icon-button
+                  [routerLink]="['/projects', project.id, 'reports']"
+                  matTooltip="Reports">
+                  <mat-icon>bar_chart</mat-icon>
+                </button>
+
                 @if (canManage) {
-                  <button mat-icon-button [routerLink]="['/projects', project.id, 'edit']" matTooltip="Edit">
+                  <button
+                    mat-icon-button
+                    [routerLink]="['/projects', project.id, 'edit']"
+                    matTooltip="Edit">
                     <mat-icon>edit</mat-icon>
                   </button>
-                  <button mat-icon-button (click)="onDelete(project.id, project.name)" matTooltip="Delete">
+
+                  <button
+                    mat-icon-button
+                    (click)="onDelete(project.id, project.name)"
+                    matTooltip="Delete">
                     <mat-icon>delete</mat-icon>
                   </button>
                 }

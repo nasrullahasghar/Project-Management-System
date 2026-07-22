@@ -76,3 +76,9 @@ mat-chip {
   --mat-chip-selected-container-color: var(--mat-sys-error-container);
   --mat-chip-selected-label-text-color: var(--mat-sys-on-error-container);
 }
+
+.search-field {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 0 20px 0;
+}

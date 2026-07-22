@@ -1,0 +1,31 @@
+<div class="report-container">
+  <a mat-button [routerLink]="['/projects', projectId, 'reports']">
+    <mat-icon>arrow_back</mat-icon>
+    Back to Reports
+  </a>
+
+  @if (!data()) {
+    <p>Loading...</p>
+  }
+
+  <mat-card class="report-card" [class.hidden]="!data()" #exportTarget>
+    @if (data(); as reportData) {
+      <mat-card-header>
+        <mat-card-title>Team Performance</mat-card-title>
+      </mat-card-header>
+    }
+
+    <div class="chart-wrapper">
+      <canvas #barCanvas></canvas>
+    </div>
+
+    @if (data()) {
+      <mat-card-actions>
+        <button mat-stroked-button (click)="exportPdf()">
+          <mat-icon>picture_as_pdf</mat-icon>
+          Export PDF
+        </button>
+      </mat-card-actions>
+    }
+  </mat-card>
+</div>

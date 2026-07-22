@@ -1,0 +1,67 @@
+<div class="report-container">
+  @if (sourceProjectId(); as pid) {
+    <a mat-button [routerLink]="['/projects', pid, 'reports']">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Reports
+    </a>
+  } @else {
+    <a mat-button routerLink="/projects">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Projects
+    </a>
+  }
+
+  <mat-card class="filter-card">
+    <mat-card-content>
+      <div class="filter-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Project</mat-label>
+          <mat-select [(ngModel)]="selectedProjectId">
+            <mat-option [value]="null">All Projects</mat-option>
+            @for (project of projectService.projects(); track project.id) {
+              <mat-option [value]="project.id">{{ project.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>From</mat-label>
+          <input matInput [matDatepicker]="fromPicker" [(ngModel)]="fromDate">
+          <mat-datepicker-toggle matIconSuffix [for]="fromPicker"></mat-datepicker-toggle>
+          <mat-datepicker #fromPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>To</mat-label>
+          <input matInput [matDatepicker]="toPicker" [(ngModel)]="toDate">
+          <mat-datepicker-toggle matIconSuffix [for]="toPicker"></mat-datepicker-toggle>
+          <mat-datepicker #toPicker></mat-datepicker>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="loadReport()">
+          Apply
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="report-card" [class.hidden]="!data()">
+    @if (data(); as reportData) {
+      <mat-card-header>
+        <mat-card-title>Task Completion — {{ reportData.from }} to {{ reportData.to }}</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-actions>
+        <button mat-stroked-button (click)="exportCsv()">
+          <mat-icon>download</mat-icon>
+          Export CSV
+        </button>
+      </mat-card-actions>
+    }
+
+    <div class="chart-wrapper">
+      <canvas #lineCanvas></canvas>
+    </div>
+    
+  </mat-card>
+</div>

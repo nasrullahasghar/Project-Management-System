@@ -1,0 +1,59 @@
+.report-container {
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.report-card {
+  margin-top: 16px;
+}
+
+.progress-summary {
+  margin-bottom: 24px;
+}
+
+.percent-label {
+  text-align: right;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
+  margin: 0 auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.status-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+
+.status-chip {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+  background: #185D92;
+}
+
+.chip-done {
+  background: #30D4C7;
+}
+
+.chip-todo {
+  background: #185D92;
+}
+
+.chip-inprogress {
+  background: #FBAE25;
+}

@@ -1,0 +1,38 @@
+.report-container {
+  padding: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.report-card {
+  margin-top: 16px;
+}
+
+.charts-row {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.chart-block {
+  flex: 1;
+  min-width: 300px;
+
+  h3 {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  height: 300px;
+  margin: 0 auto;
+}
+
+.hidden {
+  display: none;
+}
