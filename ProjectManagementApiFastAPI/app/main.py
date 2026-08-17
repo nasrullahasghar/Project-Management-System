@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.config import settings
-from app.routers import auth
+from app.core.config import settings
+from app.routers import( auth , projects , 
+                        tasks ,team_members,
+                        users
+                        )
 
 app = FastAPI(
     title="Project Management API (FastAPI)",
@@ -19,9 +22,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Equivalent to app.MapControllers() picking up [Route("api/[controller]")] controllers
 app.include_router(auth.router)
-
+app.include_router(projects.router)
+app.include_router(tasks.router)
+app.include_router(team_members.router)
+app.include_router(users.router)
 
 @app.get("/")
 async def root():

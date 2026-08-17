@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\ProjectManagementApp\\ProjectManagementAPI\\ProjectManagementApi.csproj": {}
+    "D:\\Projects\\ProjectManagementApp\\ProjectManagementApi\\ProjectManagementApi.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\ProjectManagementApp\\ProjectManagementAPI\\ProjectManagementApi.csproj": {
+    "D:\\Projects\\ProjectManagementApp\\ProjectManagementApi\\ProjectManagementApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\ProjectManagementApp\\ProjectManagementAPI\\ProjectManagementApi.csproj",
+        "projectUniqueName": "D:\\Projects\\ProjectManagementApp\\ProjectManagementApi\\ProjectManagementApi.csproj",
         "projectName": "ProjectManagementApi",
-        "projectPath": "D:\\Projects\\ProjectManagementApp\\ProjectManagementAPI\\ProjectManagementApi.csproj",
+        "projectPath": "D:\\Projects\\ProjectManagementApp\\ProjectManagementApi\\ProjectManagementApi.csproj",
         "packagesPath": "C:\\Users\\nasrullah\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\ProjectManagementApp\\ProjectManagementAPI\\obj\\",
+        "outputPath": "D:\\Projects\\ProjectManagementApp\\ProjectManagementApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nasrullah\\AppData\\Roaming\\NuGet\\NuGet.Config"

@@ -1,13 +1,13 @@
 import pytest
 from jose import jwt as jose_jwt
 
-from app.auth_utils import (
+from ProjectManagementApiFastAPI.app.utils.auth_utils import (
     hash_password,
     verify_password,
     create_access_token,
     decode_access_token,
 )
-from app.config import settings
+from ProjectManagementApiFastAPI.app.core.config import settings
 
 
 def test_password_hash_is_bcrypt_and_not_plaintext():

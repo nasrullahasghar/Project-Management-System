@@ -5,7 +5,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-from app.config import settings
+from ProjectManagementApiFastAPI.app.core.config import settings
 
 # passlib's bcrypt scheme produces standard bcrypt hashes - the same format
 # BCrypt.Net-Next uses, so this is a drop-in equivalent to:
