@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.routers import( auth , projects , 
                         tasks ,team_members,
-                        users
+                        users , reports
                         )
 
 app = FastAPI(
@@ -27,6 +27,7 @@ app.include_router(projects.router)
 app.include_router(tasks.router)
 app.include_router(team_members.router)
 app.include_router(users.router)
+app.include_router(reports.router)
 
 @app.get("/")
 async def root():

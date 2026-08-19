@@ -32,7 +32,7 @@ export interface UpdateTaskDto {
   assignedToUserId: number | null;
 }
 
-const API_BASE = 'http://localhost:5020/api/projects';
+const API_BASE = 'http://localhost:8000/api/projects';
 
 @Injectable({
   providedIn: 'root',

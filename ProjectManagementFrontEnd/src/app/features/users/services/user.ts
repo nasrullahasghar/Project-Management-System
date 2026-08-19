@@ -9,7 +9,7 @@ export interface UserDto {
   role: string;
 }
 
-const API_BASE = 'http://localhost:5020/api/users';
+const API_BASE = 'http://localhost:8000/api/users';
 
 @Injectable({
   providedIn: 'root',

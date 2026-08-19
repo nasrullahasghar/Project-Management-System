@@ -50,7 +50,7 @@ export interface GlobalBreakdownDto {
   byPriority: PriorityBreakdownItem[];
 }
 
-const API_BASE = 'http://localhost:5020/api/reports';
+const API_BASE = 'http://localhost:8000/api/reports';
 
 @Injectable({
   providedIn: 'root',

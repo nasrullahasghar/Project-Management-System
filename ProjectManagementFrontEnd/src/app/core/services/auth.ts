@@ -22,7 +22,7 @@ export interface AuthResponse {
   role: string;
 }
 
-const API_BASE = 'http://localhost:5020/api/auth';
+const API_BASE = 'http://localhost:8000/api/auth';
 
 @Injectable({
   providedIn: 'root',
